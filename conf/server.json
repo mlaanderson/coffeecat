@@ -1,0 +1,6 @@
+{
+    "port": 8080,
+    "listen": "0.0.0.0",
+    "servlets": "servlets",
+    "errorTemplate": "../conf/errors.ejs"
+}
