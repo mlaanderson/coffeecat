@@ -1,4 +1,5 @@
 const path = require('path');
+var debug = require('debug')(`coffeecat:${path.basename(__dirname)}`);
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var express = require('express');
