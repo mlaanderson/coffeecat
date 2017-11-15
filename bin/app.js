@@ -6,6 +6,8 @@ const https = require('https');
 var express = require('express');
 var logger = require('morgan');
 var debug = require('debug')('coffeecat:server');
+var WebSocket = require('ws');
+var WebSocketContainer = require('./wscontainer');
 
 // Load the server.conf file
 var config = Object.assign({
@@ -18,6 +20,9 @@ var config = Object.assign({
 }, require('../conf/server.json'));
 
 var app = express();
+var appletMap = new Map();
+var webSocketClientMap = new Map();
+var webSocketUriMap = new Map();
 
 // configure the logger
 app.use(logger('dev'));
@@ -42,7 +47,13 @@ for (let applet of applets) {
     debug('Loading %s', applet);
 
     let appletPath = applet === 'ROOT' ? '/' : '/' + applet;
-    let handler = require(path.posix.join(config.applets, applet))(appletPath, Object.assign({}, appletConfig));
+
+    webSocketUriMap.set(appletPath, new Set());
+    let wsc = new WebSocketContainer(webSocketUriMap.get(appletPath));
+    
+    let handler = require(path.posix.join(config.applets, applet))(appletPath, Object.assign({}, appletConfig), wsc);
+    
+    appletMap.set(appletPath, { handler: handler, wsc: wsc });
 
     app.use(appletPath, handler);
 
@@ -52,7 +63,14 @@ for (let applet of applets) {
 if (config.externals) {
     for (let applet of config.externals) {
         debug('Loading %s from %s', applet.name, applet.path);
-        let handler = require(applet.path)(applet.name, Object.assign({}, appletConfig));
+
+        webSocketUriMap.set('/' + applet.name, new Set());
+        let wsc = new WebSocketContainer(webSocketUriMap.get('/' + applet.name));
+        
+        let handler = require(applet.path)(applet.name, Object.assign({}, appletConfig), wsc);
+
+        appletMap.set('/' + applet.name, { handler: handler, wsc: wsc });
+
         app.use('/' + applet.name, handler);
     }
 }
@@ -79,7 +97,16 @@ var server = http.createServer(app);
 server.on('listening', () => {
     debug(`Listening on ${config.port}`);
 });
+
+// implement WS protocol
+if (config.useWS) {
+    var wss = new WebSocket.Server({ server: server });
+    wss.on('connection', handleWSConnection);
+    wss.on('error', handleWSError);
+}
+
 server.listen(config.port, config.listen);
+
 
 if (config.useSSL === true) {
     var sslOptions = {
@@ -93,5 +120,39 @@ if (config.useSSL === true) {
     sslServer.on('listening', () => {
         debug(`Listening on ${config.sslPort}`);
     });
+
+    // implement WSS protocol
+    if (config.useWS) {
+        var wssl = new WebSocket.Server({ server: sslServer });
+        wssl.on('connection', handleWSSConnection);
+        wssl.on('error', handleWSError);
+    }
+
     sslServer.listen(config.sslPort, config.listen);
+}
+
+function handleWSConnection(socket, request) { 
+    webSocketClientMap.set(socket, request.url);
+    webSocketUriMap.get(request.url).add(socket);
+
+    appletMap.get(request.url).wsc.emit('connection', socket, request);
+
+    socket.on('close', (code, reason) => {
+        // remove the socket from the sets
+        webSocketUriMap.get(request.url).delete(socket);
+        webSocketClientMap.delete(socket);
+    });
+}
+
+function handleWSSConnection(socket, request) { 
+    socket.secure = true;
+    handleWSConnection(socket, request);
+}
+
+function handleWSError(error) {
+    // hmm, can't associate this with a path
+}
+
+function handleWSHeaders(headers, request) {
+    // not sure when this gets fired
 }

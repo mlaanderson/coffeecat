@@ -1,10 +1,14 @@
 {
     "port": 8080,
     "listen": "0.0.0.0",
+    "useWS": true,
     "useSSL": true,
     "sslPort": 8443,
     "cert": "./encryption/coffeecat.crt",
     "key": "./encryption/coffeecat.key",
+    "errorTemplate": "../conf/errors.ejs",
     "servlets": "applets",
-    "errorTemplate": "../conf/errors.ejs"
+    "externals": [
+        { "name": "external", "path": "/src/goodbye/" }
+    ]
 }

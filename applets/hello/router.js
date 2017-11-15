@@ -7,8 +7,6 @@ var session = require('express-session');
 
 var router = express.Router();
 
-console.log(path.basename(__dirname));
-
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(cookieParser());
