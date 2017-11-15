@@ -6,11 +6,10 @@ const https = require('https');
 var express = require('express');
 var logger = require('morgan');
 var debug = require('debug')('coffeecat:server');
-var session = require('express-session');
 
 // Load the server.conf file
 var config = Object.assign({
-    servlets: 'servlets',
+    applets: 'applets',
     errorTemplate: '../conf/errors.ejs',
     port: 8080,
     listen: '0.0.0.0',
@@ -23,46 +22,38 @@ var app = express();
 // configure the logger
 app.use(logger('dev'));
 
-// configure sessions
-app.use(session({
-    secret: config.sessionSecret,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
-}));
-
-// make the servlets explicitely relative if there is no path seperator
-if (config.servlets.indexOf(path.sep) < 0) { 
-    config.servlets = path.resolve(config.servlets);
+// make the applets explicitely relative if there is no path seperator
+if (config.applets.indexOf(path.sep) < 0) { 
+    config.applets = path.resolve(config.applets);
 }
 
-// create a configuration object for information servlets might need
-var servletConfig = {
+// create a configuration object for information applets might need
+var appletConfig = {
     port: config.port
 }
 
 if (config.sslPort) {
-    servletConfig.sslPort = config.sslPort;
+    appletConfig.sslPort = config.sslPort;
 }
 
-// loop through the servlets in the servlet directory
-let servlets = fs.readdirSync(config.servlets);
-for (let servlet of servlets) {
-    debug('Loading %s', servlet);
+// loop through the applets in the applet directory
+let applets = fs.readdirSync(config.applets);
+for (let applet of applets) {
+    debug('Loading %s', applet);
 
-    let servletPath = servlet === 'ROOT' ? '/' : '/' + servlet;
-    let handler = require(path.posix.join(config.servlets, servlet, 'servlet.js'))(servletPath, Object.assign({}, servletConfig));
+    let appletPath = applet === 'ROOT' ? '/' : '/' + applet;
+    let handler = require(path.posix.join(config.applets, applet))(appletPath, Object.assign({}, appletConfig));
 
-    app.use(servletPath, handler);
+    app.use(appletPath, handler);
 
     debug('DONE')
 }
 
 if (config.externals) {
-    for (let servlet of config.externals) {
-        debug('Loading %s from %s', servlet.name, servlet.path);
-        let handler = require(servlet.path)(servlet.name, Object.assign({}, servletConfig));
-        app.use('/' + servlet.name, handler);
+    for (let applet of config.externals) {
+        debug('Loading %s from %s', applet.name, applet.path);
+        let handler = require(applet.path)(applet.name, Object.assign({}, appletConfig));
+        app.use('/' + applet.name, handler);
     }
 }
 

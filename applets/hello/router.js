@@ -3,7 +3,11 @@ var debug = require('debug')(`coffeecat:${path.basename(__dirname)}`);
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var express = require('express');
+var session = require('express-session');
+
 var router = express.Router();
+
+console.log(path.basename(__dirname));
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));

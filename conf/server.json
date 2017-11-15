@@ -5,6 +5,6 @@
     "sslPort": 8443,
     "cert": "./encryption/coffeecat.crt",
     "key": "./encryption/coffeecat.key",
-    "servlets": "servlets",
+    "servlets": "applets",
     "errorTemplate": "../conf/errors.ejs"
 }
