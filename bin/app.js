@@ -62,12 +62,13 @@ for (let applet of applets) {
 
 if (config.externals) {
     for (let applet of config.externals) {
-        debug('Loading %s from %s', applet.name, applet.path);
+        var appletPath = path.resolve(path.join('.', applet.path));
+        debug('Loading %s from %s', applet.name, appletPath);
 
         webSocketUriMap.set('/' + applet.name, new Set());
         let wsc = new WebSocketContainer(webSocketUriMap.get('/' + applet.name));
         
-        let handler = require(applet.path)(applet.name, Object.assign({}, appletConfig), wsc);
+        let handler = require(appletPath)(applet.name, Object.assign({}, appletConfig), wsc);
 
         appletMap.set('/' + applet.name, { handler: handler, wsc: wsc });
 

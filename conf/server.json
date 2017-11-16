@@ -9,6 +9,6 @@
     "errorTemplate": "../conf/errors.ejs",
     "servlets": "applets",
     "externals": [
-        { "name": "external", "path": "/src/goodbye/" }
+        { "name": "external", "path": "../goodbye/" }
     ]
 }
