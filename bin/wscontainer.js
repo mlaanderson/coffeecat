@@ -2,11 +2,16 @@ const EventEmitter = require('events');
 var dataMap = new WeakMap();
 
 class WebSocketContainer extends EventEmitter {
+    /**
+     * 
+     * @param {Set<WebSocket>} clients 
+     */
     constructor(clients) {
         super();
         dataMap.set(this, clients);
     }
 
+    /** @type {Set<WebSocket>} */
     get clients() {
         return dataMap.get(this);
     }

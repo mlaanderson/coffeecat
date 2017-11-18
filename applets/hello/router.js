@@ -20,12 +20,8 @@ router.use((req, res, next) => {
         next();
     } else {
         let redirPath;
-        if (req.config.port && req.config.sslPort) {
-            let portReplace = new RegExp(`${req.config.port}$`)
-            redirPath = 'https://' + (req.headers.host.replace(portReplace, req.config.sslPort)) + req.config.path + req.url;
-        } else {
-            redirPath = 'https://' + req.headers.host + req.config.path + req.url;
-        }
+        redirPath = 'https://' + (req.headers.host.replace(/:8080$/, ':8443')) + '/hello' + req.url;
+        console.log(redirPath);
     
         res.redirect(redirPath);
     }

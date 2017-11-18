@@ -1,14 +1,28 @@
 {
-    "port": 8080,
-    "listen": "0.0.0.0",
-    "useWS": true,
-    "useSSL": true,
-    "sslPort": 8443,
-    "cert": "./encryption/coffeecat.crt",
-    "key": "./encryption/coffeecat.key",
-    "errorTemplate": "../conf/errors.ejs",
-    "servlets": "applets",
-    "externals": [
-        { "name": "external", "path": "../goodbye/" }
-    ]
+    "autoLoadApplets": "./applets",
+    "applets": [
+        {
+            "container": "/external",
+            "path": "../../goodbye"
+        }
+    ],
+    "protocols": {
+        "http": {
+            "port": 8080,
+            "listen": "0.0.0.0",
+            "websockets": true,
+            "ssl": false,
+            "cert": null,
+            "key": null
+        },
+        "https": {
+            "port": 8443,
+            "listen": "0.0.0.0",
+            "websockets": false,
+            "ssl": true,
+            "cert": "./encryption/coffeecat.crt",
+            "key": "./encryption/coffeecat.key"
+        }
+    },
+    "errorTemplate": "./conf/errors.ejs"
 }
