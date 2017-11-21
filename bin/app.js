@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const Service = require('./service');
+const Service = require('../lib/service');
 
 var debug = require('debug')('coffeecat:server');
 var program = require('commander');
@@ -11,7 +11,7 @@ program
     .option('-c, --conf <filename>', 'specify a configuration file')
     .parse(process.argv);
 
-program.conf = program.conf || path.resolve(path.join('.', 'conf', 'server.json'));
+program.conf = path.resolve(program.conf) || path.resolve(path.join('.', 'conf', 'server.json')); 
 
 var config = require(program.conf);
 

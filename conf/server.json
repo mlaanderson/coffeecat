@@ -6,16 +6,17 @@
             "path": "../../goodbye"
         }
     ],
-    "protocols": {
-        "http": {
+    "protocols": [
+        {
+            "name": "http",
             "port": 8080,
             "listen": "0.0.0.0",
             "websockets": true,
             "ssl": false,
             "cert": null,
             "key": null
-        },
-        "https": {
+        }, {
+            "name": "https",
             "port": 8443,
             "listen": "0.0.0.0",
             "websockets": false,
@@ -23,6 +24,6 @@
             "cert": "./encryption/coffeecat.crt",
             "key": "./encryption/coffeecat.key"
         }
-    },
+    ],
     "errorTemplate": "./conf/errors.ejs"
 }

@@ -1,4 +1,5 @@
 const path = require('path');
+const Applet = require('../../lib/applet.js');
 var express = require('express');
 
 var servletPath = '';
@@ -9,28 +10,28 @@ var app = express();
 var session = require('express-session');
 var router = require('./router');
 
-class Applet {
+class HelloApplet extends Applet {
     constructor(config, webSocketServer) {
-        this.app = express();
+        super(config, webSocketServer);
 
         process.nextTick((() => {
             // set the view engine and template location
-            this.app.set('view engine', 'ejs');
-            this.app.set('views', path.join(__dirname, 'views'));
+            this.setViewEngine('ejs');
+            this.setViewPath(path.join(__dirname, 'views'));
 
             // configure the static file directory
-            this.app.use(express.static(path.join(__dirname, 'public')));
+            this.setStaticContentPath(path.join(__dirname, 'public'));
 
-            // configure the sessions
-            this.app.use(session({
+
+            this.setSession('express-session', {
                 secret: '95f0d5bd-b3aa-482d-8469-b6ee04776d8a',
                 resave: false,
                 saveUninitialized: true,
                 cookie: { 
                     secure: true,
-                    path: serverConfig.path 
+                    path: this.configuration.applet.container
                 }
-            }));
+            });
 
             // Finally add the router 
             this.app.use('/', router);
@@ -38,5 +39,5 @@ class Applet {
     }
 }
 
-module.exports = Applet;
+module.exports = HelloApplet;
 
