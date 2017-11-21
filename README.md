@@ -14,27 +14,21 @@ Currently, only HTTP and HTTPS protocols, with or without WebSockets, are suppor
 ```
 {
     "autoLoadApplets": "./applets",
-    "applets": [
+    "applets": [],
+    "protocols": [
         {
-            "container": "/external",
-            "path": "../../externalApplet"
-        }
-    ],
-    "protocols": {
-        "http": {
+            "name": "http",
             "port": 8080,
-            "listen": "0.0.0.0",
-            "websockets": true,
-        },
-        "https": {
+            "listen": "0.0.0.0"
+        }, {
+            "name": "https",
             "port": 8443,
             "listen": "0.0.0.0",
-            "websockets": false,
             "ssl": true,
             "cert": "./encryption/coffeecat.crt",
             "key": "./encryption/coffeecat.key"
         }
-    },
+    ],
     "errorTemplate": "./conf/errors.ejs"
 }
 ```
