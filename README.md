@@ -41,15 +41,30 @@ of this location and are loaded by directory name. That is if there is a directo
 #### applets
 An array of applet definitions. 
 <dl>
-<dt>container</dt>
-<dd>The web root of the applet,</dd>
-<dt>path</dt>
-<dd>The file system path to the applet.</dd>
+    <dt>container</dt>
+    <dd>The web root of the applet,</dd>
+    <dt>path</dt>
+    <dd>The file system path to the applet.</dd>
 </dl>
 
 #### protocols
 Currently supports http and https. Defines the ports to listen on, whether it is encrypted, and whether WebSockets are enabled.
-If `listen` is set to `false`, the protocol will not be started. 
+<dl>
+    <dt>name</dt>
+    <dd>The name of the protocol, e.g. "http" or "https"</dd>
+    <dt>port</dt>
+    <dd>The numeric port for the protocol to listen on.</dd>
+    <dt>listen</dt>
+    <dd>A string of the interface address to listen on, or a boolean. False turns off the protocol, True is the same as "0.0.0.0"</dd>
+    <dt>ssl</dt>
+    <dd>Indicates whether an SSL certificate should be associated with this protocol.</dd>
+    <dt>cert</dt>
+    <dd>The SSL certificate location relative to the root directory of the coffeecat installation.</dd>
+    <dt>key</dt>
+    <dd>The SSL private key location relative to the root directory of the coffeecat installation.</dd>
+    <dt>websockets</dt>
+    <dd>Indicates whether to attach a WebSockets server on top of this protocol</dd>
+</dl>
 
 ## WebSockets
 If a protocol supports WebSockets, then a WebSocket server will be started on top of that protocol. WebSocket clients are directed according to the request URI. If there is an applet mounted at /test, then WebSocket clients need to be created for the /test path. A future enhancement might parse the request path to see which applet it needs to be routed to.
