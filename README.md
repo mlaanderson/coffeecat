@@ -33,12 +33,12 @@ Currently, only HTTP and HTTPS protocols, with or without WebSockets, are suppor
     "errorTemplate": "./conf/errors.ejs"
 }
 ```
-#### autoLoadApplets
+### autoLoadApplets
 Specifies a file system location from which to automatically add applets to the applets array. Applets are sub directories
 of this location and are loaded by directory name. That is if there is a directory called `hello`, the applet there will be mounted at
 `/hello`. The only exception to this is a directory called `ROOT` which will be mounted at the webserver root.
 
-#### applets
+### applets
 An array of applet definitions. 
 <dl>
     <dt>container</dt>
@@ -47,7 +47,7 @@ An array of applet definitions.
     <dd>The file system path to the applet.</dd>
 </dl>
 
-#### protocols
+### protocols
 Currently supports http and https. Defines the ports to listen on, whether it is encrypted, and whether WebSockets are enabled.
 <dl>
     <dt>name</dt>
