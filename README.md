@@ -7,7 +7,7 @@ which are mounted automatically by the server at start up. CoffeeCat provides th
 with paths. It provides a configuration (JSON) based setup for the Express server.
 
 ## Configuration
-Configuration is done in a JSON file. The default configuration file location is in conf/server.xml. An optional path
+Configuration is done in a JSON file. The default configuration file location is in conf/server.conf. An optional path
 can be used by using the -c flag on the command line. An applet is defined by it's container (web path) and it's path (file system path).
 Currently, only HTTP and HTTPS protocols, with or without WebSockets, are supported.
 
