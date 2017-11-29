@@ -11,7 +11,7 @@ program
     .option('-c, --conf <filename>', 'specify a configuration file')
     .parse(process.argv);
 
-program.conf = path.resolve(program.conf) || path.resolve(path.join('.', 'conf', 'server.json')); 
+program.conf = path.resolve(program.conf || path.join('.', 'conf', 'server.json')); 
 
 var config = require(program.conf);
 
