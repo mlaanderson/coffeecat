@@ -55,7 +55,7 @@ Currently supports http and https. Defines the ports to listen on, whether it is
     <dt>port</dt>
     <dd>The numeric port for the protocol to listen on.</dd>
     <dt>listen</dt>
-    <dd>A string of the interface address to listen on, or a boolean. False turns off the protocol, True is the same as "0.0.0.0"</dd>
+    <dd>A string of the interface address to listen on, or a boolean. False turns off the protocol, True is the same as "0.0.0.0", but not the same as the IPv6 equivalent "::".</dd>
     <dt>ssl</dt>
     <dd>Indicates whether an SSL certificate should be associated with this protocol.</dd>
     <dt>cert</dt>
@@ -68,3 +68,26 @@ Currently supports http and https. Defines the ports to listen on, whether it is
 
 ## WebSockets
 If a protocol supports WebSockets, then a WebSocket server will be started on top of that protocol. WebSocket clients are directed according to the request URI. If there is an applet mounted at /test, then WebSocket clients need to be created for the /test path. A future enhancement might parse the request path to see which applet it needs to be routed to.
+
+## IPv6
+To listen on IPv6 addresses along with IPv4 addresses, just duplicate the protocol settings and include an IPv6 address.
+```
+{
+    "autoLoadApplets": "./applets",
+    "applets": [],
+    "protocols": [
+        {
+            "name": "http",
+            "port": 8080,
+            "listen": "0.0.0.0",
+            "websockets": true
+        }, {
+            "name": "http",
+            "port": 8080,
+            "listen": "::",
+            "websockets": true
+        }
+    ],
+    "errorTemplate": "./conf/errors.ejs"
+}
+```
