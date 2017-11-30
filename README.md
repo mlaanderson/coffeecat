@@ -7,7 +7,7 @@ which are mounted automatically by the server at start up. CoffeeCat provides th
 with paths. It provides a configuration (JSON) based setup for the Express server.
 
 ## Configuration
-Configuration is done in a JSON file. The default configuration file location is in conf/server.conf. An optional path
+Configuration is done in a JSON file. The default configuration file location is in conf/server.json. An optional path
 can be used by using the -c flag on the command line. An applet is defined by it's container (web path) and it's path (file system path).
 Currently, only HTTP and HTTPS protocols, with or without WebSockets, are supported.
 
@@ -91,3 +91,42 @@ To listen on IPv6 addresses along with IPv4 addresses, just duplicate the protoc
     "errorTemplate": "./conf/errors.ejs"
 }
 ```
+
+## HTTP/2
+The built-in http2 module for NodeJS does not work as seamlessly with Express as the [spdy](https://github.com/spdy-http2/node-spdy) library. So install
+the spdy library:
+````
+npm install -s git+https://github.com/spdy-http2/node-spdy.git
+````
+
+Configure the SPDY protocol with SSL, identical to an HTTPS configuration:
+````
+{
+    "name": "spdy",
+    "port": 8443,
+    "listen": "0.0.0.0",
+    "ssl": true,
+    "cert": "./encryption/coffeecat.crt",
+    "key": "./encryption/coffeecat.key"
+}
+````
+
+In the applet, use the extended features of the HTTP/2 protocol to stream additional resources:
+
+````
+router.get('/', (req, res, next) => {
+    var stream = res.push('/main.js', {
+        status: 200,
+        method: 'GET',
+        request: {
+            accept: '*/*'
+        },
+        response: {
+            'content-type': 'application/javascript'
+        }
+    });
+    stream.end('alert("Hello from SPDY aka HTTP/2");');
+    res.render('index',{}); 
+});
+````
+Where the index template includes ``<script src="main.js"></script>``
