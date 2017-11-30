@@ -9,7 +9,7 @@ with paths. It provides a configuration (JSON) based setup for the Express serve
 ## Configuration
 Configuration is done in a JSON file. The default configuration file location is in conf/server.json. An optional path
 can be used by using the -c flag on the command line. An applet is defined by it's container (web path) and it's path (file system path).
-Currently, only HTTP and HTTPS protocols, with or without WebSockets, are supported.
+Currently, only HTTP, HTTP/2, and HTTPS protocols, with or without WebSockets, are supported.
 
 ```
 {
@@ -98,6 +98,9 @@ the spdy library:
 ````
 npm install -s git+https://github.com/spdy-http2/node-spdy.git
 ````
+
+HTTP/2 is only supported with modern browsers and only with TLS. For Edge and Internet Exlporer, HTTP/2 is only supported in Windows 10 and higher. For Safari, HTTP/2 
+is only supported in Mac OS X 10.11 and higher. For further compatibility see the [CanIUse page](https://caniuse.com/#feat=http2).
 
 Configure the SPDY protocol with SSL, identical to an HTTPS configuration:
 ````
