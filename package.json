@@ -21,6 +21,8 @@
   "homepage": "https://github.com/mlaanderson/coffeecat#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "coffeecat-applet": "git+https://github.com/mlaanderson/coffeecat-applet.git",
+    "coffeecat-ws": "git+https://github.com/mlaanderson/coffeecat-ws.git",
     "commander": "^2.11.0",
     "cookie-parser": "^1.4.3",
     "debug": "^3.1.0",

@@ -1,5 +1,5 @@
 const path = require('path');
-const Applet = require('../../lib/applet.js');
+const Applet = require('coffeecat-applet');
 var express = require('express');
 
 var servletPath = '';
