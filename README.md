@@ -1,7 +1,7 @@
 # coffeecat
 Applet Container for NodeJS
 
-![logo](https://cdn.rawgit.com/mlaanderson/coffeecat/fefe6fcb/applets/ROOT/public/coffeecat.jpg)
+![logo](https://cdn.rawgit.com/mlaanderson/coffeecat/fefe6fcb/applets/ROOT/public/coffeecat.png)
 
 ## About
 CoffeeCat provides a containerized system under [Express](https://www.expressjs.com). Containers are full Express applications
