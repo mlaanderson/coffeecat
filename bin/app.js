@@ -16,12 +16,13 @@ program.conf = path.resolve(program.conf || path.join('.', 'conf', 'server.json'
 var config = require(program.conf);
 
 if (config.autoLoadApplets) {
-    let applets = fs.readdirSync(path.resolve(config.autoLoadApplets));
+    let autoload = path.resolve(config.autoLoadApplets);
+    let applets = fs.readdirSync(autoload);
     for (let applet of applets) {
         let container = applet === 'ROOT' ? '/' : '/' + applet;
         config.applets.push({
             container: container,
-            path: path.resolve(path.join('.', config.autoLoadApplets, applet))
+            path: path.resolve(path.join(autoload, applet))
         });
     }
 }

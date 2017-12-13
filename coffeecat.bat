@@ -1,5 +1,6 @@
 @echo off
 
-cd %~dp0
+cd /D %~dp0
 
-node . %*
+rem using "& exit" to eliminate the "Terminate batch job (Y/N)?" annoyance
+node . %* & exit
