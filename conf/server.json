@@ -1,11 +1,6 @@
 {
     "autoLoadApplets": "./applets",
-    "applets": [
-        {
-            "container": "/external",
-            "path": "../../goodbye"
-        }
-    ],
+    "applets": [],
     "protocols": [
         {
             "name": "http",

@@ -22,7 +22,7 @@ class HelloApplet extends Applet {
             // configure the static file directory
             this.setStaticContentPath(path.join(__dirname, 'public'));
 
-
+            // Configure the session
             this.setSession('express-session', {
                 secret: '95f0d5bd-b3aa-482d-8469-b6ee04776d8a',
                 resave: false,
