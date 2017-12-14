@@ -21,8 +21,7 @@ Currently, only HTTP, HTTP/2, and HTTPS protocols, with or without WebSockets, a
         {
             "name": "http",
             "port": 8080,
-            "listen": "0.0.0.0",
-            "websockets": true
+            "listen": "0.0.0.0"
         }, {
             "name": "https",
             "port": 8443,
@@ -64,12 +63,7 @@ Currently supports http and https. Defines the ports to listen on, whether it is
     <dd>The SSL certificate location relative to the root directory of the coffeecat installation.</dd>
     <dt>key</dt>
     <dd>The SSL private key location relative to the root directory of the coffeecat installation.</dd>
-    <dt>websockets</dt>
-    <dd>Indicates whether to attach a WebSockets server on top of this protocol</dd>
 </dl>
-
-## WebSockets
-If a protocol supports WebSockets, then a WebSocket server will be started on top of that protocol. WebSocket clients are directed according to the request URI. If there is an applet mounted at /test, then WebSocket clients need to be created for the /test path. A future enhancement might parse the request path to see which applet it needs to be routed to.
 
 ## IPv6
 To listen on IPv6 addresses along with IPv4 addresses, just duplicate the protocol settings and include an IPv6 address.
