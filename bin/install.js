@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const { execSync } = require('child_process');
 
+console.log(os.userInfo());
 const defaults = require('./defaults')();
 
 (() => {
@@ -97,7 +98,7 @@ var ROOT_FILES = ['package.json', 'rootApplet.js', path.join('public', 'coffeeca
         }
 
         console.log('Creating ROOT applet...');
-        
+
         for (let file of ROOT_FILES) {
             console.log(file);
             await fs.copyFile(path.resolve(path.join('.', 'applets', 'ROOT', file)), path.resolve(path.join(ROOT, file)));
