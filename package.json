@@ -3,7 +3,9 @@
   "version": "2.0.0",
   "description": "Applet container for NodeJS",
   "main": "bin/app.js",
-  "bin": "bin/app.js",
+  "bin": {
+    "coffeecat": "bin/app.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
