@@ -8,5 +8,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "coffeecat-applet": "git+https://github.com/mlaanderson/coffeecat-applet.git",
+    "express": "^4.16.2"
+  }
 }

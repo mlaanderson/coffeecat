@@ -4,10 +4,11 @@
   "description": "Applet container for NodeJS",
   "main": "bin/app.js",
   "bin": {
-    "coffeecat": "bin/app.js"
+    "coffeecat": "bin/coffeecat.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "bin/install.js"
   },
   "repository": {
     "type": "git",

@@ -6,7 +6,6 @@
             "name": "http",
             "port": 8080,
             "listen": "0.0.0.0",
-            "websockets": true,
             "ssl": false,
             "cert": null,
             "key": null
@@ -14,7 +13,6 @@
             "name": "https",
             "port": 8443,
             "listen": "0.0.0.0",
-            "websockets": false,
             "ssl": true,
             "cert": "./encryption/coffeecat.crt",
             "key": "./encryption/coffeecat.key"
