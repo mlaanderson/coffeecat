@@ -1,8 +1,9 @@
 {
   "name": "coffeecat",
   "version": "2.0.0",
-  "description": "Servlet container for NodeJS",
+  "description": "Applet container for NodeJS",
   "main": "bin/app.js",
+  "bin": "bin/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +12,7 @@
     "url": "git+https://github.com/mlaanderson/coffeecat.git"
   },
   "keywords": [
-    "servlet"
+    "applet", "express", "container", "web", "server"
   ],
   "author": "Michael Anderson",
   "license": "MIT",
