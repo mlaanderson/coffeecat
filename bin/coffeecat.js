@@ -11,16 +11,11 @@ var defaults = require('./defaults')();
 program
     .version(package.version)
     .option('-c, --conf <filename>', 'specify a configuration file')
-    // .option('-i, --init', 'initialize a Coffeecat server')
     .parse(process.argv);
 
 
-// if (program.init) {
-//     require('child_process').execSync('node bin/install.js');
-// } else {
-    program.conf = path.resolve(program.conf || defaults.configuration); 
+program.conf = path.resolve(program.conf || defaults.configuration); 
 
-    var config = require(program.conf);
+var config = require(program.conf);
 
-    runner(config);
-// }
+runner(config);

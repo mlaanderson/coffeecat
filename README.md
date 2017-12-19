@@ -8,6 +8,27 @@ CoffeeCat provides a containerized system under [Express](https://www.expressjs.
 which are mounted automatically by the server at start up. CoffeeCat provides the structure for loading apps and associating them
 with paths. It provides a configuration (JSON) based setup for the Express server.
 
+## Installation
+#### On Unix:
+````
+sudo npm install -g git+https://github.com/mlaanderson/coffeecat.git --unsafe
+````
+This installs the configuration file in ``/etc/coffeecat`` and sets up a single applet for ``/`` in ``/var/coffeecat``. The ``--unsafe`` flag allows the installer to create those folders.
+
+TODO: Change the user on the applet folder after install. Create a service for Unix.
+
+#### On Windows:
+````
+npm install -g git+https://github.com/mlaanderson/coffeecat.git
+````
+
+This installs the configuration file in ``%USERPROFILE%\.coffeecat\conf`` and a single applet for ``/`` in ``%USERPROFILE%\.coffeecat\applets``.
+
+TODO: Create a service for Windows.
+
+### Running
+To run coffeecat in a console window, just run ``coffeecat``, it will locate and use its configuration file. On Unix, if it was installed with sudo and you want to run as a normal user, use ``coffeecat -c /etc/coffeecat/server.json``.
+
 ## Configuration
 Configuration is done in a JSON file. The default configuration file location is in conf/server.json. An optional path
 can be used by using the -c flag on the command line. An applet is defined by it's container (web path) and it's path (file system path).
