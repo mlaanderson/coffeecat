@@ -1,0 +1,47 @@
+#!/bin/sh
+# Start/stop the coffeecat daemon.
+#
+### BEGIN INIT INFO
+# Provides:          coffeecat
+# Required-Start:    $local_fs $remote_fs $network $syslog $named
+# Required-Stop:     $local_fs $remote_fs $network $syslog $named
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Coffeecat web application server
+# Description:       start the web application server
+### END INIT INFO
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+DESC="Coffeecat application server"
+NAME=coffeecat
+DAEMON=/bin/su -s /bin/sh <%= user %> -c /usr/bin/coffeecat
+PIDFILE=/var/run/coffeecat.pid
+SCRIPTNAME=/etc/init.d/"$NAME"
+
+test -f $DAEMON || exit 0
+
+. /lib/lsb/init-functions
+
+case "$1" in
+start)  log_daemon_msg "Starting web application server" "coffeecat"
+        start_daemon -p $PIDFILE $DAEMON $EXTRA_OPTS
+        log_end_msg $?
+        ;;
+stop)   log_daemon_msg "Stopping web application server" "coffeecat"
+        killproc -p $PIDFILE $DAEMON
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE
+        log_end_msg $RETVAL
+        ;;
+restart) log_daemon_msg "Restarting web application server" "coffeecat"
+        $0 stop
+        $0 start
+        ;;
+Sstatus)
+        status_of_proc -p $PIDFILE $DAEMON $NAME && exit 0 || exit $?
+        ;;
+*)      log_action_msg "Usage: /etc/init.d/coffeecat {start|stop|status|restart|reload|force-reload}"
+        exit 2
+        ;;
+esac
+exit 0

@@ -1,0 +1,18 @@
+[Unit]
+Description=The CoffeeCat Server
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=simple
+Environment=PRODUCTION=true
+ExecStart=/usr/bin/env coffeecat
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=coffeecat
+User=<%= user %>
+Group=<%= group %>
+
+[Install]
+WantedBy=multi-user.target
