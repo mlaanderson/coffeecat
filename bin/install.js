@@ -157,14 +157,14 @@ var ROOT_FILES = ['package.json', 'rootApplet.js', path.join('public', 'coffeeca
                 // check to see if we need to use systemd or init scripts
                 if (fs.existsSync('/lib/systemd')) {
                     // this one uses systemd
-                    let service = await ejs.renderFile('../install/coffeecat.service', { user: user, group: group });
+                    let service = await ejs.renderFile('./install/coffeecat.service', { user: user, group: group });
                     await fs.writeFile('/lib/systemd/system/coffeecat.service', service);
                     execSync('systemctl daemon-reload');
                     execSync('systemctl enable coffeecat');
                     execSync('systemctl start coffeecat');
                 } else {
                     // this one uses init scripts
-                    let service = await ejs.renderFile('../install/coffeecat.init', { user: user, group: group });
+                    let service = await ejs.renderFile('./install/coffeecat.init', { user: user, group: group });
                     await fs.writeFile('/etc/init.d/coffeecat', service);
                     execSync('chmod +x /etc/init.d/coffeecat');
                     execSync('update-rc.d coffeecat defaults');
