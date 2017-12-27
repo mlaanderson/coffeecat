@@ -21,18 +21,13 @@ if [ $(id -u) -ne 0 ]; then
 fi
 
 NPM_PREFIX=$(npm config get prefix)
+TMP_DIR=$(mktemp -d)
 
 echo -n Installing coffeecat module in  ${NPM_PREFIX}/lib/node_modules ... 
-cd "${NPM_PREFIX}/lib/node_modules"
-git clone https://github.com/mlaanderson/coffeecat.git > /dev/null 2>&1
-cd "${NPM_PREFIX}/lib/node_modules/coffeecat"
-npm install > /dev/null 2>&1
+git clone https://github.com/mlaanderson/coffeecat.git "${TMP_DIR}" > /dev/null 2>&1
+npm install --global --unsafe "${TMP_DIR}" > /dev/null 2>&1
 echo " DONE"
 
-echo -n Linking executable at ${NPM_PREFIX}/bin/coffeecat
-ln -s "${NPM_PREFIX}/lib/node_modules/coffeecat/bin/coffeecat.js" "${NPM_PREFIX}/bin/coffeecat" > /dev/null 2>&1
+echo -n Removing the temporary folder
+rm -rf "${TMP_DIR}"
 echo " DONE"
-
-echo Configuring coffeecat
-chmod +x "${NPM_PREFIX}/lib/node_modules/coffeecat/bin/install.js"
-"${NPM_PREFIX}/lib/node_modules/coffeecat/bin/install.js"
