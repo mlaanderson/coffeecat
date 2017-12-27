@@ -149,7 +149,7 @@ var ROOT_FILES = ['package.json', 'rootApplet.js', path.join('public', 'coffeeca
         case "win32":
             // create the service with node-windows?
             {
-                let Service = require('node-windows');
+                let Service = require('node-windows').Service;
                 let service = new Service({
                     name: 'Coffeecat',
                     description: 'The Coffeecat Server',
