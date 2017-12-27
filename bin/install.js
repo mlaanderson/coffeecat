@@ -6,7 +6,6 @@ const { execSync } = require('child_process');
 const Promisify = require('../lib/promisify');
 const ejs = require('ejs');
 
-console.log(os.userInfo());
 const defaults = require('./defaults')();
 
 
