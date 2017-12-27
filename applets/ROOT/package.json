@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "coffeecat-applet": "git+https://github.com/mlaanderson/coffeecat-applet.git",
+    "coffeecat-applet": "^2.0.0",
     "express": "^4.16.2"
   }
 }
