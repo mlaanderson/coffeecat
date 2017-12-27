@@ -148,6 +148,20 @@ var ROOT_FILES = ['package.json', 'rootApplet.js', path.join('public', 'coffeeca
     switch (os.platform()) {
         case "win32":
             // create the service with node-windows?
+            {
+                let Service = require('node-windows');
+                let service = new Service({
+                    name: 'Coffeecat',
+                    description: 'The Coffeecat Server',
+                    script: path.join(os.userInfo().homedir, 'AppData', 'Roaming', 'npm', 'node_modules', 'coffeecat', 'bin', 'coffecat.js')
+                });
+
+                service.on('install', () => {
+                    service.start();
+                });
+
+                service.install();
+            }
             break;
         case "linux":
             {
