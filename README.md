@@ -29,9 +29,7 @@ sudo npm install --global --unsafe https://github.com/mlaanderson/coffeecat/arch
 npm install --global git+https://github.com/mlaanderson/coffeecat.git
 ````
 
-This installs the configuration file in ``%USERPROFILE%\.coffeecat\conf`` and a single applet for ``/`` in ``%USERPROFILE%\.coffeecat\applets``.
-
-TODO: Create a service for Windows.
+This installs the configuration file in ``%USERPROFILE%\.coffeecat\conf`` and a single applet for ``/`` in ``%USERPROFILE%\.coffeecat\applets``. And installs the Coffeecat service.
 
 ### Running
 To run coffeecat in a console window, just run ``coffeecat``, it will locate and use its configuration file. On Unix, if it was installed with sudo and you want to run as a normal user, use ``coffeecat -c /etc/coffeecat/server.json``.
