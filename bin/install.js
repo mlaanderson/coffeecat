@@ -1,3 +1,5 @@
+import { resolve } from 'path';
+
 #!/usr/bin/env node 
 const os = require('os');
 const path = require('path');
@@ -156,11 +158,19 @@ var ROOT_FILES = ['package.json', 'rootApplet.js', path.join('public', 'coffeeca
                     script: path.join(os.userInfo().homedir, 'AppData', 'Roaming', 'npm', 'node_modules', 'coffeecat', 'bin', 'coffecat.js')
                 });
 
-                service.on('install', () => {
-                    service.start();
-                });
+                await (function() {
+                    return new Promise((resolve, reject) => {
+                        service.on('install', () => {
+                            service.start();
+                        });
 
-                service.install();
+                        service.on('start', () => {
+                            resolve();
+                        });
+        
+                        service.install();
+                    });
+                })();
             }
             break;
         case "linux":
