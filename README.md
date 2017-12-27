@@ -11,15 +11,22 @@ with paths. It provides a configuration (JSON) based setup for the Express serve
 ## Installation
 #### On Unix:
 ````
-sudo npm install -g git+https://github.com/mlaanderson/coffeecat.git --unsafe
+sudo npm install --global --unsafe git+https://github.com/mlaanderson/coffeecat.git
 ````
-This installs the configuration file in ``/etc/coffeecat`` and sets up a single applet for ``/`` in ``/var/coffeecat``. The ``--unsafe`` flag allows the installer to create those folders.
+This installs the configuration file in ``/etc/coffeecat`` and sets up a single applet for ``/`` in ``/var/coffeecat``. The ``--unsafe`` flag allows the installer to create those folders and install the service.
 
-TODO: Change the user on the applet folder after install. Create a service for Unix.
+If the npm installation fails for access, install using an npm tarball installation:
+````
+sudo npm install --global --unsafe https://github.com/mlaanderson/coffeecat/archive/master.tar.gz
+````
+To install a specific release (for example v2.1.0):
+````
+sudo npm install --global --unsafe https://github.com/mlaanderson/coffeecat/archive/v2.1.0.tar.gz
+````
 
 #### On Windows:
 ````
-npm install -g git+https://github.com/mlaanderson/coffeecat.git
+npm install --global git+https://github.com/mlaanderson/coffeecat.git
 ````
 
 This installs the configuration file in ``%USERPROFILE%\.coffeecat\conf`` and a single applet for ``/`` in ``%USERPROFILE%\.coffeecat\applets``.

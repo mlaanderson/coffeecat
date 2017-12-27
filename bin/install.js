@@ -148,7 +148,7 @@ var ROOT_FILES = ['package.json', 'rootApplet.js', path.join('public', 'coffeeca
     // create the service
     switch (os.platform()) {
         case "win32":
-            // create the service with node-windows
+            // create the service with node-windows?
             break;
         case "linux":
             {
