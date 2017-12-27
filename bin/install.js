@@ -9,9 +9,9 @@ const ejs = require('ejs');
 const defaults = require('./defaults')();
 
 
-fs.writeFile = Promisify(fs.writeFile);
-fs.copyFile = Promisify(fs.copyFile);
-fs.mkdir = Promisify(fs.mkdir);
+fs.asyncWriteFile = Promisify(fs.writeFile);
+fs.asyncCopyFile = Promisify(fs.copyFile);
+fs.asyncMkdir = Promisify(fs.mkdir);
 ejs.renderFile = Promisify(ejs.renderFile);
 
 /**
@@ -22,11 +22,11 @@ ejs.renderFile = Promisify(ejs.renderFile);
 fs.mkdirp = async function(dir, mode) {
     mode = mode || 0o777;
     try {
-        await fs.mkdir(dir, mode);
+        await fs.asyncMkdir(dir, mode);
     } catch (error) {
         if ((error.code === "ENOENT") && (path.dirname(dir) !== dir)) {
             await fs.mkdirp(path.dirname(dir), mode);
-            await fs.mkdir(dir, mode);
+            await fs.asyncMkdir(dir, mode);
         } else {
             throw error;
         }
@@ -46,6 +46,25 @@ fs.pickFile = function pickFile(...files) {
         }
     }
     return false;
+}
+
+function InstallWindowsService() {
+    return new Promise((resolve, reject) => {
+        var Service = require('node-windows').Service;
+        var service = new Service({
+            name: 'Coffeecat',
+            description: 'The Coffeecat Server',
+            script: './bin/coffeecat.js'
+        });
+
+        service.on('install', () => {
+            console.log('WINDOWS Service Installed');
+            service.start();
+            resolve();
+        });
+
+        service.install();    
+    });
 }
 
 var config = {
@@ -76,7 +95,7 @@ var ROOT_FILES = ['package.json', 'rootApplet.js', path.join('public', 'coffeeca
         if (fs.existsSync(path.dirname(defaults.configuration)) === false) {
             await fs.mkdirp(path.dirname(defaults.configuration));
         }
-        await fs.writeFile(defaults.configuration, JSON.stringify(config, null, 4));
+        await fs.asyncWriteFile(defaults.configuration, JSON.stringify(config, null, 4));
     }
 
     // create the ROOT applet directory
@@ -84,19 +103,19 @@ var ROOT_FILES = ['package.json', 'rootApplet.js', path.join('public', 'coffeeca
         if (fs.existsSync(ROOT) === false) {
             await fs.mkdirp(ROOT);
             await fs.mkdirp(path.join(ROOT, 'public'));
+
+            console.log('Creating ROOT applet...');
+
+            for (let file of ROOT_FILES) {
+                console.log(file);
+                await fs.asyncCopyFile(path.resolve(path.join('.', 'applets', 'ROOT', file)), path.resolve(path.join(ROOT, file)));
+            }
+            execSync('npm install', {
+                cwd: ROOT
+            });
+
+            console.log('DONE');
         }
-
-        console.log('Creating ROOT applet...');
-
-        for (let file of ROOT_FILES) {
-            console.log(file);
-            await fs.copyFile(path.resolve(path.join('.', 'applets', 'ROOT', file)), path.resolve(path.join(ROOT, file)));
-        }
-        execSync('npm install', {
-            cwd: ROOT
-        });
-
-        console.log('DONE');
     }
 
     // Create the user and group, change ownership of the applets folder to the user
@@ -148,28 +167,7 @@ var ROOT_FILES = ['package.json', 'rootApplet.js', path.join('public', 'coffeeca
     switch (os.platform()) {
         case "win32":
             // create the service with node-windows?
-            {
-                let Service = require('node-windows').Service;
-                let service = new Service({
-                    name: 'Coffeecat',
-                    description: 'The Coffeecat Server',
-                    script: path.join(os.userInfo().homedir, 'AppData', 'Roaming', 'npm', 'node_modules', 'coffeecat', 'bin', 'coffecat.js')
-                });
-
-                await (function() {
-                    return new Promise((resolve, reject) => {
-                        service.on('install', () => {
-                            service.start();
-                        });
-
-                        service.on('start', () => {
-                            resolve();
-                        });
-        
-                        service.install();
-                    });
-                })();
-            }
+            await InstallWindowsService();
             break;
         case "linux":
             {
@@ -179,14 +177,14 @@ var ROOT_FILES = ['package.json', 'rootApplet.js', path.join('public', 'coffeeca
                 if (fs.existsSync('/lib/systemd')) {
                     // this one uses systemd
                     let service = await ejs.renderFile('./install/coffeecat.service', { user: user, group: group });
-                    await fs.writeFile('/lib/systemd/system/coffeecat.service', service);
+                    await fs.asyncWriteFile('/lib/systemd/system/coffeecat.service', service);
                     execSync('systemctl daemon-reload');
                     execSync('systemctl enable coffeecat');
                     execSync('systemctl start coffeecat');
                 } else {
                     // this one uses init scripts
                     let service = await ejs.renderFile('./install/coffeecat.init', { user: user, group: group });
-                    await fs.writeFile('/etc/init.d/coffeecat', service);
+                    await fs.asyncWriteFile('/etc/init.d/coffeecat', service);
                     execSync('chmod +x /etc/init.d/coffeecat');
                     execSync('update-rc.d coffeecat defaults');
                     execSync('service coffeecat start');
