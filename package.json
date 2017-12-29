@@ -37,8 +37,11 @@
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "morgan": "^1.9.0",
-    "node-windows": "^0.1.14",
     "uuid": "^3.1.0",
     "ws": "^3.3.2"
+  },
+  "optionalDependencies": {
+    "node-windows": "^0.1.14",
+    "node-mac": "^0.1.8"
   }
 }
