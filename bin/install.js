@@ -67,6 +67,25 @@ function InstallWindowsService() {
     });
 }
 
+function InstallMacService() {
+    return new Promise((resolve, reject) => {
+        var Service = require('node-mac').Service;
+        var service = new Service({
+            name: 'Coffeecat',
+            description: 'The Coffeecat Server',
+            script: './bin/coffeecat.js'
+        });
+
+        service.on('install', () => {
+            console.log('Mac OS Service Installed');
+            service.start();
+            resolve();
+        });
+
+        service.install();    
+    });
+}
+
 var config = {
     "autoLoadApplets": defaults.applets,
     "applets": [],
@@ -134,7 +153,7 @@ var ROOT_FILES = ['package.json', 'rootApplet.js', path.join('public', 'coffeeca
             case 'sunos':
                 {
                     let shell;
-                    if (shell = fs.pickFile('/usr/sbin/nologin', '/bin/false', '/usr/bin/false')) {
+                    if (shell = fs.pickFile('/sbin/nologin', '/usr/sbin/nologin', '/bin/false', '/usr/bin/false')) {
                         shell = "-s " + shell
                     } else {
                         shell = "";
@@ -165,6 +184,9 @@ var ROOT_FILES = ['package.json', 'rootApplet.js', path.join('public', 'coffeeca
 
     // create the service
     switch (os.platform()) {
+        case "darwin":
+            await InstallMacService();
+            break;
         case "win32":
             // create the service with node-windows?
             await InstallWindowsService();
