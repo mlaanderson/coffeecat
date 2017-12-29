@@ -9,6 +9,8 @@ which are mounted automatically by the server at start up. CoffeeCat provides th
 with paths. It provides a configuration (JSON) based setup for the Express server.
 
 ## Installation
+On Windows, Linux, and Mac OS the installer creates a new service and starts it.
+
 #### On Unix:
 ````
 sudo npm install --global --unsafe git+https://github.com/mlaanderson/coffeecat.git
