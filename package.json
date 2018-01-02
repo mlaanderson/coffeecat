@@ -1,6 +1,6 @@
 {
   "name": "coffeecat",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "Applet container for NodeJS",
   "main": "bin/app.js",
   "bin": {
