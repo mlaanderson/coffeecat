@@ -5,8 +5,13 @@ const fs = require('fs');
 const { execSync } = require('child_process');
 const Promisify = require('../lib/promisify');
 const ejs = require('ejs');
+const isGlobal = require('is-global')();
 
 const defaults = require('./defaults')();
+
+if (isGlobal === false) {
+    process.exit(0);
+}
 
 
 fs.asyncWriteFile = Promisify(fs.writeFile);
