@@ -1,4 +1,6 @@
 # coffeecat
+[![Build Status](https://travis-ci.org/mlaanderson/coffeecat.svg?branch=master)](https://travis-ci.org/mlaanderson/coffeecat)
+
 Applet Container for NodeJS
 
 ![logo](https://cdn.rawgit.com/mlaanderson/coffeecat/f430499d/applets/ROOT/public/coffeecat.png)
